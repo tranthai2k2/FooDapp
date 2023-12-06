@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "180549735540",
+    "project_id": "foodapp-ef567",
+    "storage_bucket": "foodapp-ef567.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:180549735540:android:b85fce2e96f7aaa831ed21",
+        "android_client_info": {
+          "package_name": "com.example.chat_app_demo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3q0DNDonWUktz49t_jRFD3uzF39E4Uvo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
