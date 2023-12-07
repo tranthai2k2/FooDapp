@@ -2,6 +2,13 @@ import 'package:flutter/material.dart';
 import './trang3.dart';
 import './sginup.dart';
 import 'Trang4.dart';
+import 'package:chat_app_demo/models/account_entity.dart';
+import 'package:chat_app_demo/trang3.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
 
@@ -10,6 +17,11 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,7 +67,7 @@ class _LoginState extends State<Login> {
                   TextFormField(
                     style: TextStyle(color: Colors.white), // Đặt màu chữ trắng
                     decoration: InputDecoration(
-                      labelText: 'Tên đăng nhập',
+                      labelText: 'email',
                       labelStyle: TextStyle(color: Colors.white), // Đặt màu chữ cho label
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.white), // Đặt màu cho viền khi không được focus
@@ -87,14 +99,18 @@ class _LoginState extends State<Login> {
                   SizedBox(height: 20), // Khoảng cách giữa trường nhập liệu và nút đăng nhập
 
                   // Nút login
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        // MaterialPageRoute(builder: (context) => Trang3()),
-                        MaterialPageRoute(builder: (context) => Trang4()),
 
-                      );
+                  ElevatedButton(
+                    onPressed: () async {
+                     
+                      // if (a) {
+                      //   Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(builder: (context) => Trang4()),
+                      //   );
+                      // } else {
+                      //   print('Lỗi');
+                      // }
                     },
                     style: ElevatedButton.styleFrom(
                       primary: Colors.pink, // Màu hồng
@@ -110,22 +126,7 @@ class _LoginState extends State<Login> {
 
                   SizedBox(height: 10), // Khoảng cách giữa các nút
 
-                  // Nút đăng nhập bằng Facebook
-                  ElevatedButton(
-                    onPressed: () {
-                      // Xử lý đăng nhập bằng Facebook
-                    },
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.blue, // Màu xanh nước biển
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10), // Border radius
-                      ),
-                    ),
-                    child: Text(
-                      'Đăng nhập bằng Facebook',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

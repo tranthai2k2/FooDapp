@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'login.dart';
+
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
 
@@ -14,22 +16,25 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
 
   bool _showPassword = false;
+  // khai báo để lấy giá trị
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _confirmPasswordController = TextEditingController();
 
+  // hàm khởi động đăng ký
   Future<void> _signUpWithEmail() async {
     try {
-      // var authResult = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-      //   email: _emailController.text,
-      //   password: _passwordController.text,
-      // );
+      var authResult = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+
 
       final _currentUser = AccountEntity(
-        id: "authResult.user?.uid", // id định danh
+        id: authResult.user?.uid, // id định danh
         email: _emailController.text,
-        fullName: "Thai",
-        phone: "0987654321",
+        fullName: '',
+        phone:'' ,
         gender: 1,
         passWord: _passwordController.text,
       );
@@ -192,7 +197,27 @@ class _SignUpState extends State<SignUp> {
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
+                  SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        // MaterialPageRoute(builder: (context) => Trang3()),
+                        MaterialPageRoute(builder: (context) => Login()),
 
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.pink, // Màu hồng
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10), // Border radius
+                      ),
+                    ),
+                    child: Text(
+                      'đã có tài khoản',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
                   SizedBox(height: 10),
 
                   Row(
