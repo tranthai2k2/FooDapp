@@ -128,18 +128,19 @@ class _LoginScreenState extends State<LoginScreen> {
                     GestureDetector(
                       onTap: () async {
                         try {
-                          UserCredential userCredential = await FirebaseAuth
-                              .instance
-                              .signInWithEmailAndPassword(
-                            email: emailController.text,
-                            password: passController.text,
-                          );
+                          // UserCredential userCredential = await FirebaseAuth
+                          //     .instance
+                          //     .signInWithEmailAndPassword(
+                          //   email: emailController.text,
+                          //   password: passController.text,
+                          // );
+
                           final fireStoreService = FireStorageService();
                           final userInfo = await fireStoreService.login(
                             email: emailController.text,
-                            // chỉnh sửa thành email
                             password: passController.text,
                           );
+
                           if (userInfo != null) {
 // nếu thông tin của userinfo khác null
                             final isarService = IsarService();
@@ -155,14 +156,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             //lưu vào isar
 
                             GlobalData.instance.currentUser = userInfo;
-                            // if (context.mounted) {
-                            //   Navigator.of(context).pushAndRemoveUntil(
-                            //     MaterialPageRoute(
-                            //       builder: (context) => const MainPage(),
-                            //     ),
-                            //         (Route<dynamic> route) => false,
-                            //   );
-                            // }
+
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (context) => const BottomBarScreen()),
+                            );
                           } else {
                             if (context.mounted) {
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -173,7 +171,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             }
                           }
 
-                          if (userCredential.user != null) {
+                          /*if (userCredential.user != null) {
                             // Đăng nhập thành công, điều hướng đến BottomBarScreen
                             Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
@@ -182,7 +180,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           } else {
                             // Đăng nhập thất bại
                             print('Đăng nhập thất bại');
-                          }
+                          }*/
                         } catch (e) {
                           // Xử lý khi có lỗi xảy ra
                           print('Đăng nhập thất bại: $e');

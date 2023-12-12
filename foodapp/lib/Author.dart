@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'global/global_data.dart';
 import 'models/entities/authenticate_entity.dart';
 import 'services/fire_storage_service.dart';
 class AuthService {

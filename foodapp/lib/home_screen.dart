@@ -21,6 +21,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final currentUser = GlobalData.instance.currentUser;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,12 +53,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            const Positioned(
+            Positioned(
               left: 104,
               top: 76,
               child: Text(
-                "Hi, RoSe",
-                style: TextStyle(
+                "Hi, ${currentUser?.firstName ?? ''}",
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 20,
                   fontFamily: 'Roboto',
