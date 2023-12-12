@@ -1,10 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:foodapp/firebase/filebase_service.dart';
+import 'package:foodapp/services/fire_storage_service.dart';
+import 'package:foodapp/services/isar_service.dart';
+import 'global/global_data.dart';
 import 'home_screen.dart';
 // import 'package:demo/models/account.dart';
 // import 'package:demo/service/file_store_service.dart';
 import 'bottom_screen/bottom_bar_screen.dart';
+import 'models/isar_database/isar_account_entity.dart';
 import 'sign_up_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -130,6 +134,44 @@ class _LoginScreenState extends State<LoginScreen> {
                             email: emailController.text,
                             password: passController.text,
                           );
+                          final fireStoreService = FireStorageService();
+                          final userInfo = await fireStoreService.login(
+                            email: emailController.text,
+                            // chỉnh sửa thành email
+                            password: passController.text,
+                          );
+                          if (userInfo != null) {
+// nếu thông tin của userinfo khác null
+                            final isarService = IsarService();
+// khai báo user với thông tin lấy từ user.info
+                            final user = IsarAccountEntity(
+                              firstName: userInfo.firstName,
+                              lastName: userInfo.lastName,
+                              address: userInfo.address,
+                              phoneNumber: userInfo.phoneNumber,
+                            );
+
+                            isarService.saveAccount(user);
+                            //lưu vào isar
+
+                            GlobalData.instance.currentUser = userInfo;
+                            // if (context.mounted) {
+                            //   Navigator.of(context).pushAndRemoveUntil(
+                            //     MaterialPageRoute(
+                            //       builder: (context) => const MainPage(),
+                            //     ),
+                            //         (Route<dynamic> route) => false,
+                            //   );
+                            // }
+                          } else {
+                            if (context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text("Đã xảy ra lỗi!"),
+                                ),
+                              );
+                            }
+                          }
 
                           if (userCredential.user != null) {
                             // Đăng nhập thành công, điều hướng đến BottomBarScreen

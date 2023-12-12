@@ -43,7 +43,7 @@ dependencies:
   firebase_auth: ^4.15.2
   cloud_firestore:
   firebase_messaging:
-
+  build_runner:
   json_annotation: ^4.8.1
   file_picker:
   permission_handler:
@@ -51,6 +51,7 @@ dependencies:
   path_provider:
   device_info_plus:
 
+  isar:
 
 dev_dependencies:
   flutter_test:

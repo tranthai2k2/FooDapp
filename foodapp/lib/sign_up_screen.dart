@@ -1,7 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:foodapp/login.dart';
 import 'package:flutter/material.dart';
 import 'package:foodapp/firebase/filebase_service.dart';
 import 'package:foodapp/validator/validations.dart';
+
+import 'bottom_screen/bottom_bar_screen.dart';
+import 'models/entities/authenticate_entity.dart';
 // import 'home_screen.dart';
 // import 'bottom_screen/bottom_bar_screen.dart';
 
@@ -12,12 +17,44 @@ class SignUpScreen extends StatefulWidget {
   State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
+
 class _SignUpScreenState extends State<SignUpScreen> {
   bool isPasswordVisible = false;
   TextEditingController passwordController = TextEditingController();
   TextEditingController usernameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+  Future<void> _signUpWithEmail() async {
+    try {
+      var authResult = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text,
+      );
+
+
+      final _currentUser = AccountEntity(
+        uId: authResult.user?.uid, // id định danh
+        email: emailController.text,
+        firstName: usernameController.text,
+        phoneNumber:phoneController.text,
+        passWord: passwordController.text,
+      );
+
+      final CollectionReference _usersCollectionReference =
+      FirebaseFirestore.instance.collection('user');
+
+      await _usersCollectionReference.doc(_currentUser.uId).set(_currentUser.toJson());
+
+      Navigator.of(context).pushReplacement(
+    MaterialPageRoute(
+    builder: (context) => BottomBarScreen()),
+    );
+    } catch (e) {
+      // Xử lý lỗi đăng ký
+      print('Lỗi đăng ký: $e');
+    }
+  }
+
 
   var userNameErr = "Tên đăng nhập không hợp lệ";
   var passErr = "Mật khẩu phải trên 6 ký tự";
@@ -196,17 +233,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               !emailInvalid) {
                             AuthService authService = AuthService();
                             try {
-                              await authService.signUpWithEmailAndPassword(
-                                emailController.text,
-                                passwordController.text,
-                                usernameController.text,
-                                phoneController.text,
-                              );
-
-                              Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                    builder: (context) => const LoginScreen()),
-                              );
+                              _signUpWithEmail();
                             } catch (e) {
                               // Xử lý lỗi nếu đăng ký không thành công
                               print('Lỗi khi đăng ký: $e');

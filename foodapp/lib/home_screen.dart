@@ -5,6 +5,11 @@ import 'package:foodapp/search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:foodapp/search_address_screen.dart';
+import 'package:foodapp/services/fire_storage_service.dart';
+import 'package:foodapp/services/isar_service.dart';
+
+import 'bottom_screen/bottom_bar_screen.dart';
+import 'global/global_data.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
@@ -186,4 +191,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
+
+
 }
