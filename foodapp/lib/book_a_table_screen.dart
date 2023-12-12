@@ -172,21 +172,27 @@ class _BookATableScreenState extends State<BookATableScreen> {
                       ),
                     ),
                   ),
-                  const Positioned(
+                  Positioned(
                     top: 350,
                     left: 158,
-                    child: Text(
-                      'View more',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Color(0xFF939292),
-                        fontSize: 13,
-                        fontFamily: 'Roboto',
-                        fontWeight: FontWeight.w400,
-                        height: 0,
+                    child: GestureDetector(
+                      onTap: () {
+                        // Điều hướng sang trang khác khi nhấn vào "View more"
+                        Navigator.pushNamed(context, '/secondPage');
+                      },
+                      child: const Text(
+                        'View more',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color(0xFF939292),
+                          fontSize: 13,
+                          fontFamily: 'Roboto',
+                          fontWeight: FontWeight.w400,
+                          height: 0,
+                        ),
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

@@ -1,8 +1,6 @@
 import 'package:foodapp/login.dart';
 import 'package:flutter/material.dart';
 
-import 'connectdatetime.dart';
-
 class ScreenDau extends StatefulWidget {
   const ScreenDau({Key? key}) : super(key: key);
 
@@ -39,10 +37,8 @@ class _ScreenDauState extends State<ScreenDau> {
           ),
           InkWell(
             onTap: () {
-              Navigator.push(
-                context,
-                // MaterialPageRoute(builder: (context) => const LoginScreen()),
-                MaterialPageRoute(builder: (context) => ConnectDateTimePage()),
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => const LoginScreen()),
               );
             },
             child: Container(

@@ -133,8 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                           if (userCredential.user != null) {
                             // Đăng nhập thành công, điều hướng đến BottomBarScreen
-                            Navigator.push(
-                              context,
+                            Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
                                   builder: (context) => BottomBarScreen()),
                             );
