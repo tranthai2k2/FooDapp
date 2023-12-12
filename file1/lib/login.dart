@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import './trang3.dart';
 import './sginup.dart';
+import 'Author.dart';
 import 'Trang4.dart';
 import 'package:chat_app_demo/models/account_entity.dart';
 import 'package:chat_app_demo/trang3.dart';
@@ -8,7 +10,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'Author.dart';
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
 
@@ -19,6 +21,17 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+// Khai báo GlobalKey cho TextFormField của email
+  final GlobalKey<FormState> _emailKey = GlobalKey<FormState>();
+
+// Khai báo GlobalKey cho TextFormField của mật khẩu
+  final GlobalKey<FormState> _passwordKey = GlobalKey<FormState>();
+
+
+
+
+
+
 
 
 
@@ -63,35 +76,39 @@ class _LoginState extends State<Login> {
                   ),
                   SizedBox(height: 20), // Khoảng cách giữa ảnh và các trường nhập liệu
 
-                  // Tên đăng nhập
+                  // TextFormField cho email
                   TextFormField(
-                    style: TextStyle(color: Colors.white), // Đặt màu chữ trắng
+                    key: _emailKey,
+                    controller: _emailController,
+                    style: TextStyle(color: Colors.white),
                     decoration: InputDecoration(
-                      labelText: 'email',
-                      labelStyle: TextStyle(color: Colors.white), // Đặt màu chữ cho label
+                      labelText: 'Gmail',
+                      labelStyle: TextStyle(color: Colors.white),
                       enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white), // Đặt màu cho viền khi không được focus
+                        borderSide: BorderSide(color: Colors.white),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white), // Đặt màu cho viền khi được focus
+                        borderSide: BorderSide(color: Colors.white),
                       ),
                     ),
                   ),
 
                   SizedBox(height: 20), // Khoảng cách giữa trường nhập liệu và nút đăng nhập
 
-
-                  // Mật khẩu
+                  // TextFormField cho mật khẩu
                   TextFormField(
-                    style: TextStyle(color: Colors.white), // Đặt màu chữ trắng
+                    key: _passwordKey,
+                    controller: _passwordController, // Thêm dòng này
+
+                    style: TextStyle(color: Colors.white),
                     decoration: InputDecoration(
                       labelText: 'Mật khẩu',
-                      labelStyle: TextStyle(color: Colors.white), // Đặt màu chữ cho label
+                      labelStyle: TextStyle(color: Colors.white),
                       enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white), // Đặt màu cho viền khi không được focus
+                        borderSide: BorderSide(color: Colors.white),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white), // Đặt màu cho viền khi được focus
+                        borderSide: BorderSide(color: Colors.white),
                       ),
                     ),
                   ),
@@ -102,15 +119,26 @@ class _LoginState extends State<Login> {
 
                   ElevatedButton(
                     onPressed: () async {
-                     
-                      // if (a) {
-                      //   Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(builder: (context) => Trang4()),
-                      //   );
-                      // } else {
-                      //   print('Lỗi');
-                      // }
+                      // Gọi hàm đăng nhập từ AuthService
+                      bool loginSuccess = await AuthService().loginWithEmail(
+                        email: _emailController.text,
+                        password: _passwordController.text,
+                      );
+                      if (loginSuccess) {
+                        // Đăng nhập thành công, có thể thực hiện các hành động sau đăng nhập ở đây
+                        print("Đăng nhập thành công");
+
+                        Navigator.push(
+                          context,
+                          // MaterialPageRoute(builder: (context) => Trang3()),
+                          MaterialPageRoute(builder: (context) => Trang3()),
+
+
+                        );
+                      } else {
+                        // Đăng nhập không thành công, có thể thông báo cho người dùng
+                        print("Đăng nhập không thành công");
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       primary: Colors.pink, // Màu hồng
@@ -161,3 +189,6 @@ class _LoginState extends State<Login> {
     );
   }
 }
+
+
+
