@@ -42,9 +42,10 @@ class _ScreenDauState extends State<ScreenDau> {
           ),
           InkWell(
             onTap: () {
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => const LoginScreen()),
-              );
+              _checkAccountSaved();
+              // Navigator.of(context).pushReplacement(
+              //   MaterialPageRoute(builder: (context) => const LoginScreen()),
+              // );
             },
             child: Container(
               child: Image.asset(

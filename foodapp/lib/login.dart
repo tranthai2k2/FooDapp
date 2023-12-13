@@ -128,12 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     GestureDetector(
                       onTap: () async {
                         try {
-                          // UserCredential userCredential = await FirebaseAuth
-                          //     .instance
-                          //     .signInWithEmailAndPassword(
-                          //   email: emailController.text,
-                          //   password: passController.text,
-                          // );
+
 
                           final fireStoreService = FireStorageService();
                           final userInfo = await fireStoreService.login(
@@ -171,16 +166,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             }
                           }
 
-                          /*if (userCredential.user != null) {
-                            // Đăng nhập thành công, điều hướng đến BottomBarScreen
-                            Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                  builder: (context) => BottomBarScreen()),
-                            );
-                          } else {
-                            // Đăng nhập thất bại
-                            print('Đăng nhập thất bại');
-                          }*/
+
                         } catch (e) {
                           // Xử lý khi có lỗi xảy ra
                           print('Đăng nhập thất bại: $e');

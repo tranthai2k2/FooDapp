@@ -22,6 +22,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final currentUser = GlobalData.instance.currentUser;
+  final TextEditingController emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -109,9 +110,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Row(
                   children: [
                     Container(
-                      margin: const EdgeInsets.only(top: 12, bottom: 12),
-                      width: 24,
-                      height: 24,
+                      margin: const EdgeInsets.only(top: 10, bottom: 10),
+                      width: 10,
+                      height: 10,
                       decoration: const BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.white,
@@ -122,21 +123,33 @@ class _HomeScreenState extends State<HomeScreen> {
                         height: 24,
                       ),
                     ),
+
+                    // nhập thông tin để tìm
                     Container(
-                      margin:
-                          const EdgeInsets.only(top: 16, left: 8, bottom: 12),
+                      margin: const EdgeInsets.only(top: 16, left: 8, bottom: 12),
                       width: 200,
                       height: 22,
-                      child: const Text(
-                        'Search for address, food...',
+
+                      child: TextField(
+                        controller: emailController,
+                        decoration: InputDecoration(
+                          hintText: 'Search for address, food...',
+                          hintStyle: TextStyle(
+                            color: Color(0xFFC4C4C4),
+                            fontSize: 16,
+                            fontFamily: 'Nunito',
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
                         style: TextStyle(
-                          color: Color(0xFFC4C4C4),
+                          color: Colors.black, // Màu chữ khi nhập giá trị
                           fontSize: 16,
                           fontFamily: 'Nunito',
                           fontWeight: FontWeight.w400,
                         ),
                       ),
                     ),
+                    // icon local
                     Container(
                       margin: const EdgeInsets.only(left: 40),
                       width: 14,
@@ -164,11 +177,18 @@ class _HomeScreenState extends State<HomeScreen> {
               child: ElevatedButton(
                 onPressed: () {
                   // Xử lý khi nút được nhấn
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const SearchScreen()),
-                  );
+                  if (emailController!=null) {
+                    print("đã nhập vào gia tri");
+                    // FireStorageService.searchFood(emailController.text);
+                  } else {
+                    print("chưa có giá trị được nhập vào");
+                  };
+
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //       builder: (context) => const SearchScreen()),
+                  // );
                 },
                 style: ElevatedButton.styleFrom(
                   primary: const Color(0xFFDB166E), // Màu nền của nút
