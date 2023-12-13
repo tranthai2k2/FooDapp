@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:foodapp/services/fire_storage_service.dart';
 
 // import 'models/entities/food_entity.dart';
+import 'models/entities/food_entity.dart';
 import 'models/entities/restaurant_entity.dart';
 // class FirebaseService {
 //   final CollectionReference _restaurantCollectionReference =
@@ -26,7 +27,7 @@ void main() async {
       restaurantId:1,
       name: 'Nhà hàng A',
       address: 'Địa chỉ A',
-      listFood: restaurant3FoodList,
+      listFood: [1, 2],
       restaurantImage: 'path_to_restaurant_image1',
       restaurantDescription: 'Mô tả nhà hàng A',
     ),
@@ -34,7 +35,7 @@ void main() async {
       restaurantId:4,
       name: 'Nhà hàng Ab',
       address: 'Địa chỉ Ab',
-      listFood: restaurant3FoodList,
+      listFood: [3, 4],
       restaurantImage: 'path_to_restaurant_image1',
       restaurantDescription: 'Mô tả nhà hàng Ab',
     ),
@@ -42,7 +43,7 @@ void main() async {
       restaurantId:2,
       name: 'Nhà hàng B',
       address: 'Địa chỉ B',
-      listFood: restaurant3FoodList,
+      listFood: [5, 6],
       restaurantImage: 'path_to_restaurant_image2',
       restaurantDescription: 'Mô tả nhà hàng B',
     ),
@@ -50,33 +51,101 @@ void main() async {
       restaurantId:3,
       name: 'Nhà hàng C',
       address: 'Địa chỉ C',
-      listFood: restaurant3FoodList,
+      listFood: [7, 8],
       restaurantImage: 'path_to_restaurant_image1',
       restaurantDescription: 'Mô tả nhà hàng C',
     ),
     // Thêm các nhà hàng khác vào đây
   ];
+  List<FoodEntity> foodList = [
+    FoodEntity(
+      foodId: 1,
+      foodName: 'Mì Quảng',
+      price: 15.0,
+      imageUrl: 'path_to_food_image1',
+    ),
+    FoodEntity(
+      foodId: 2,
+      foodName: 'Bún Riêu',
+      price: 12.0,
+      imageUrl: 'path_to_food_image2',
+    ),
+    FoodEntity(
+      foodId: 3,
+      foodName: 'Phở Bò',
+      price: 20.0,
+      imageUrl: 'path_to_food_image3',
+    ),
+    FoodEntity(
+      foodId: 4,
+      foodName: 'Gỏi Cuốn',
+      price: 8.0,
+      imageUrl: 'path_to_food_image4',
+    ),
+    FoodEntity(
+      foodId: 5,
+      foodName: 'Cơm Gà',
+      price: 18.0,
+      imageUrl: 'path_to_food_image5',
+    ),
+    FoodEntity(
+      foodId: 6,
+      foodName: 'Bánh Mì Xúc Xích',
+      price: 10.0,
+      imageUrl: 'path_to_food_image6',
+    ),
+    FoodEntity(
+      foodId: 7,
+      foodName: 'Bún Chả',
+      price: 14.0,
+      imageUrl: 'path_to_food_image7',
+    ),
+    FoodEntity(
+      foodId: 8,
+      foodName: 'Hủ Tiếu Nam Vang',
+      price: 16.0,
+      imageUrl: 'path_to_food_image8',
+    ),
+  ];
 
 
   // Thêm danh sách nhà hàng vào Firestore
   await fireStorageService.addRestaurants(restaurantList);
+  await fireStorageService.addListFood(foodList);
 
 
 
-  // Gọi hàm searchUser với phoneNumber mong đợi (mặc dù số điện thoại thì "Mì Quảng" không thích hợp)
-  // var result = await fireStorageService.searchFood('Mì Quảng');
-  // if (result != null) {
-  //   // Xử lý kết quả nếu cần
-  //   print('Found ${result.length} foods.');
-  //   for (var food in result) {
+  //----------------------// tìm kiếm theo id food //----------------------//
+
+  // var resultFoodid = await fireStorageService.searchfoodId(2);
+  // if (resultFoodid != null) {
+  //   print('đã tìm thấy food id');
+  //   for (var food in resultFoodid) {
   //     print('Food Name: ${food.foodName}');
-  //     // In thông tin khác nếu cần
+  //     print('Price: ${food.price}');
+  //     print('Image URL: ${food.imageUrl}');
+  //     print('Food ID: ${food.foodId}');
+  //     print('-----------------------');
   //   }
   // } else {
-  //   // Xử lý trường hợp không tìm thấy món ăn
-  //   print('No food found.');
+  //   print('No matching food found.');
   // }
-  // Kiểm tra xem kết quả có phải là AccountEntity không
+  //----------------------// tìm kiếm theo tên food //----------------------//
+
+  // var resultFood = await fireStorageService.searchFood('Mì Quảng');
+  // print('Result Food: $resultFood');
+  // if (resultFood != null) {
+  //   print('đã tìm thấy food name');
+  //   for (var food in resultFood) {
+  //     print('Food Name: ${food.foodName}');
+  //     print('Price: ${food.price}');
+  //     print('Image URL: ${food.imageUrl}');
+  //     print('Food ID: ${food.foodId}');
+  //     print('-----------------------');
+  //   }
+  // } else {
+  //   print('No matching food found.');
+  // }
 
 
 

@@ -6,13 +6,11 @@ part of 'restaurant_entity.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-RestaurantEntity _$RestaurantEntityFromJson(Map<String, dynamic> json) =>
-    RestaurantEntity(
+RestaurantEntity _$RestaurantEntityFromJson(Map json) => RestaurantEntity(
       name: json['name'] as String?,
       address: json['address'] as String?,
-      listFood: (json['listFood'] as List<dynamic>?)
-          ?.map((e) => FoodID.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      listFood:
+          (json['listFood'] as List<dynamic>?)?.map((e) => e as int).toList(),
       restaurantImage: json['restaurantImage'] as String?,
       restaurantDescription: json['restaurantDescription'] as String?,
       restaurantId: json['restaurantId'] as int?,

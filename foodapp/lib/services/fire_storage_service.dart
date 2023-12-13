@@ -100,7 +100,7 @@ class FireStorageService {
   }
 
   // Tìm kiếm món ăn theo id
-  Future<List<FoodEntity>?> searchfoodId(String foodid) async {
+  Future<List<FoodEntity>?> searchfoodId(int? foodid) async {
     try {
       var foodDocumentSnapshot = await _foodCollectionReference
           .where('foodId', isEqualTo: foodid)
@@ -123,8 +123,8 @@ class FireStorageService {
   }
 
 
-  // Tìm kiếm nhà hàng theo tên
-  Future<List<RestaurantEntity>?> searchRestaurant(String name) async {
+  // Tìm kiếm nhà hàng theo tên của nhà hàng
+  Future<List<RestaurantEntity>?> searchRestaurant(String? name) async {
     try {
       var restaurantDocumentSnapshot = await _restaurantCollectionReference
           .where('name', isEqualTo: name)
@@ -145,6 +145,31 @@ class FireStorageService {
       return null;
     }
   }
+
+  // tìm kiếm nhà hàng theo địa chỉ
+  Future<List<RestaurantEntity>?> searchaddressRestaurant(String? address) async {
+    try {
+      var restaurantDocumentSnapshot = await _restaurantCollectionReference
+          .where('address', isEqualTo: address)
+          .get();
+
+      if (restaurantDocumentSnapshot.docs.isNotEmpty) {
+        return restaurantDocumentSnapshot.docs
+            .map(
+              (snapshot) => RestaurantEntity.fromJson(
+            snapshot.data() as Map<String, dynamic>,
+          ),
+        )
+            .toList();
+      }
+      return [];
+    } catch (e) {
+      debugPrint("Đã xảy ra lỗi không tìm kiếm được nhà hàng");
+      return null;
+    }
+  }
+
+
 // tìm người dunùng qua số điện thoại
   Future<AccountEntity?> searchUser(String phoneNumber) async {
     try {
@@ -182,7 +207,9 @@ class FireStorageService {
     try {
       for (var restaurant in restaurants) {
         // thêm nhà hàng vào Firebase không vấn đề
+
         bool isRestaurantFound = await searchRestaurantId(restaurant.restaurantId);
+
         // đã lấy ra được giá trị của restaurant.restaurantId lỗi đang xuat hiện ở searchid
         if(isRestaurantFound){
           print('đã có ID này: ${restaurant.restaurantId}');
@@ -225,7 +252,54 @@ class FireStorageService {
       return false;
     }
   }
+  Future<void> addListFood(List<FoodEntity> foodList) async {
+    try {
+      for (var food in foodList) {
+        // Thêm món ăn vào Firebase
+        bool isFoodFound = await searchFoodId(food.foodId);
 
+        // Kiểm tra xem món ăn đã tồn tại hay chưa
+        if (isFoodFound) {
+          print('Đã có ID food này: ${food.foodId}');
+        } else {
+          // Nếu món ăn chưa tồn tại, thêm vào Firebase
+          await _foodCollectionReference.add(food.toJson());
+          print('Đã thêm ID food này: ${food.foodId}');
+        }
+      }
+    } catch (e) {
+      print("Đã xảy ra lỗi khi thêm món ăn: $e");
+      // Xử lý lỗi theo ý bạn
+    }
+  }
+  // tìm kiếm food theo id
+  Future<bool> searchFoodId(int? foodId) async {
+    try {
+      var foodSnapshot = await _foodCollectionReference
+          .where('foodId', isEqualTo: foodId)
+          .get();
+
+      if (foodSnapshot.docs.isNotEmpty) {
+        final listFood = foodSnapshot.docs
+            .map(
+              (snapshot) => FoodEntity.fromJson(
+            snapshot.data() as Map<String, dynamic>,
+          ),
+        )
+            .toList();
+
+        final isFoodFound = listFood.any((food) => food.foodId == foodId);
+
+        return isFoodFound;
+      } else {
+        // Collection "food" is empty
+        return false;
+      }
+    } catch (e) {
+      print("Đã xảy ra lỗi khi tìm kiếm foodId: $e");
+      return false;
+    }
+  }
 
   Future<AccountEntity?> login({
     required String email,
