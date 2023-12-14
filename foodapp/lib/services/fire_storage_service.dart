@@ -58,6 +58,7 @@ class FireStorageService {
       return null; // Return null in case of an error
     }
   }
+
 // lấy ra listfavfood
   Future<List<FavFoodEntity>?> getListFavFood() async {
     try {
@@ -262,8 +263,38 @@ class FireStorageService {
       return null;
     }
   }
-  // tim kiem nha hang theo name
 
+// tìm ra Food theo id
+  Future<FoodEntity?> searchentityFooDid(int foodid) async {
+    try {
+      var foodDocumentSnapshot = await _foodCollectionReference.get();
+
+      if (foodDocumentSnapshot.docs.isNotEmpty) {
+        final listFood = foodDocumentSnapshot.docs
+            .map(
+              (snapshot) => FoodEntity.fromJson(
+            snapshot.data() as Map<String, dynamic>,
+          ),
+        )
+            .toList();
+
+        final matchingFoods = listFood
+            .where((element) => element.foodId == foodid)
+            .toList();
+
+        if (matchingFoods.isNotEmpty) {
+          return matchingFoods.first;
+        }
+
+        return null;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      debugPrint("Đã xảy ra lỗi khi lấy thông tin về thực phẩm");
+      return null;
+    }
+  }
 
 // tìm người dunùng qua số điện thoại
   Future<AccountEntity?> searchUser(String phoneNumber) async {

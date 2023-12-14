@@ -30,6 +30,11 @@ class _ListFoodPageState extends State<ListFoodPage> {
     });
   }
 
+// Hàm void để lấy thông tin food từ fireStorageService dựa trên foodid
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
