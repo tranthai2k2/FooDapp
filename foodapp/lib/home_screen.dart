@@ -9,7 +9,9 @@ import 'package:foodapp/services/fire_storage_service.dart';
 import 'package:foodapp/services/isar_service.dart';
 
 import 'bottom_screen/bottom_bar_screen.dart';
+import 'data_notifier.dart';
 import 'global/global_data.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
@@ -95,11 +97,10 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 51,
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const SearchAddressScreen()),
-                  );
+                  // Provider.of<DataNotifier>(context, listen: false)
+                  //     .setSearchData(emailController.text);
+
+
                 },
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
@@ -180,6 +181,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   if (emailController!=null) {
                     print("đã nhập vào gia tri");
                     // FireStorageService.searchFood(emailController.text);
+                    // Chuyển đến trang SearchAddressScreen
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SearchAddressScreen(),
+                      ),
+                    );
                   } else {
                     print("chưa có giá trị được nhập vào");
                   };

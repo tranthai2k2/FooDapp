@@ -61,6 +61,7 @@ class _ScreenDauState extends State<ScreenDau> {
   void _checkAccountSaved() async {
     /// Mở Isar service
     final isarService = IsarService();
+    // khai báo firesorage
     final fireStorageService = FireStorageService();
 
     ///Lấy về user đã lưu trong database

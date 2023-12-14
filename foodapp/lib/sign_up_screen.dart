@@ -42,6 +42,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         firstName: usernameController.text,
         phoneNumber: phoneController.text,
         passWord: passwordController.text,
+        favFoodId:authResult.user?.uid,
       );
 
       await fireStorageService.createUser(_currentUser);

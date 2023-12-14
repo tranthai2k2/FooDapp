@@ -20,8 +20,10 @@ class AccountEntity {
   final String? avatar;
   @JsonKey()
   final String? address;
-
+  @JsonKey()
+  final String? favFoodId;
   AccountEntity({
+    this.favFoodId,
     this.email,
     this.firstName,
     this.lastName,

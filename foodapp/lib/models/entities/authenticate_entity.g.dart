@@ -8,6 +8,7 @@ part of 'authenticate_entity.dart';
 
 AccountEntity _$AccountEntityFromJson(Map<String, dynamic> json) =>
     AccountEntity(
+      favFoodId: json['favFoodId'] as String?,
       email: json['email'] as String?,
       firstName: json['firstName'] as String?,
       lastName: json['lastName'] as String?,
@@ -28,4 +29,5 @@ Map<String, dynamic> _$AccountEntityToJson(AccountEntity instance) =>
       'email': instance.email,
       'avatar': instance.avatar,
       'address': instance.address,
+      'favFoodId': instance.favFoodId,
     };

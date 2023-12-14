@@ -5,6 +5,7 @@ import 'package:foodapp/models/entities/food_entity.dart';
 import 'package:foodapp/models/entities/restaurant_entity.dart';
 
 import '../models/entities/authenticate_entity.dart';
+import '../models/entities/favfood.dart';
 
 class FireStorageService {
   final CollectionReference _accountCollectionReference =
@@ -15,6 +16,25 @@ class FireStorageService {
 
   final CollectionReference _foodCollectionReference =
       FirebaseFirestore.instance.collection('food');
+  final CollectionReference _OrderProcessorCollectionReference =
+  FirebaseFirestore.instance.collection('OrderProcessor');
+  final CollectionReference _FavFoodCollectionReference =
+  FirebaseFirestore.instance.collection('FavFood');
+
+
+  // tạo ra favfood với đối tượng gồm cả favfoodid và listfood id
+  Future createfavfood(FavFoodEntity favFoodEntity) async {
+    try {
+      await _accountCollectionReference.doc(favFoodEntity.favFoodId).set(
+        favFoodEntity.toJson(),
+      );
+    } catch (e) {
+      if (e is PlatformException) {
+        return e.message;
+      }
+      return e.toString();
+    }
+  }
 
 // tạo user
   Future createUser(AccountEntity authenticateInfo) async {
@@ -29,7 +49,7 @@ class FireStorageService {
       return e.toString();
     }
   }
-
+// tạo food
   Future createFood(FoodEntity foodEntity) async {
     try {
       await _accountCollectionReference.doc("${foodEntity.foodId}").set(
@@ -42,6 +62,7 @@ class FireStorageService {
       return e.toString();
     }
   }
+  // tạo nhà hàng
   Future createRestaurant(RestaurantEntity restaurantEntity) async {
     try {
       await _accountCollectionReference.doc("${restaurantEntity.restaurantId}").set(
@@ -54,6 +75,7 @@ class FireStorageService {
       return e.toString();
     }
   }
+
 
 // lấy dữ liệu từ list account và tạo nó vao trong database
   Future<List<AccountEntity>?> getListAccount() async {
@@ -99,31 +121,9 @@ class FireStorageService {
     }
   }
 
-  // Tìm kiếm món ăn theo id
-  Future<List<FoodEntity>?> searchfoodId(int? foodid) async {
-    try {
-      var foodDocumentSnapshot = await _foodCollectionReference
-          .where('foodId', isEqualTo: foodid)
-          .get();
-
-      if (foodDocumentSnapshot.docs.isNotEmpty) {
-        return foodDocumentSnapshot.docs
-            .map(
-              (snapshot) => FoodEntity.fromJson(
-            snapshot.data() as Map<String, dynamic>,
-          ),
-        )
-            .toList();
-      }
-      return [];
-    } catch (e) {
-      debugPrint("Đã xảy ra lỗi không tìm kiếm được id food");
-      return null;
-    }
-  }
 
 
-  // Tìm kiếm nhà hàng theo tên của nhà hàng
+  // Tìm kiếm nhà hàng theo tên của nhà hàng nameRestaurant
   Future<List<RestaurantEntity>?> searchRestaurant(String? name) async {
     try {
       var restaurantDocumentSnapshot = await _restaurantCollectionReference
@@ -168,6 +168,7 @@ class FireStorageService {
       return null;
     }
   }
+  // tim kiem nha hang theo name
 
 
 // tìm người dunùng qua số điện thoại
@@ -226,6 +227,7 @@ class FireStorageService {
       // Xử lý lỗi theo ý bạn
     }
   }
+  // tìm nhà hàng theo id
   Future<bool> searchRestaurantId(int? restaurantId) async {
     try {
       var restaurantSnapshot = await _restaurantCollectionReference.get();
@@ -252,6 +254,7 @@ class FireStorageService {
       return false;
     }
   }
+  // them list mon an
   Future<void> addListFood(List<FoodEntity> foodList) async {
     try {
       for (var food in foodList) {
@@ -300,7 +303,7 @@ class FireStorageService {
       return false;
     }
   }
-
+// login
   Future<AccountEntity?> login({
     required String email,
     required String password,

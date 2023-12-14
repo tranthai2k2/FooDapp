@@ -113,42 +113,6 @@ void main() async {
   await fireStorageService.addRestaurants(restaurantList);
   await fireStorageService.addListFood(foodList);
 
-
-
-  //----------------------// tìm kiếm theo id food //----------------------//
-
-  // var resultFoodid = await fireStorageService.searchfoodId(2);
-  // if (resultFoodid != null) {
-  //   print('đã tìm thấy food id');
-  //   for (var food in resultFoodid) {
-  //     print('Food Name: ${food.foodName}');
-  //     print('Price: ${food.price}');
-  //     print('Image URL: ${food.imageUrl}');
-  //     print('Food ID: ${food.foodId}');
-  //     print('-----------------------');
-  //   }
-  // } else {
-  //   print('No matching food found.');
-  // }
-  //----------------------// tìm kiếm theo tên food //----------------------//
-
-  // var resultFood = await fireStorageService.searchFood('Mì Quảng');
-  // print('Result Food: $resultFood');
-  // if (resultFood != null) {
-  //   print('đã tìm thấy food name');
-  //   for (var food in resultFood) {
-  //     print('Food Name: ${food.foodName}');
-  //     print('Price: ${food.price}');
-  //     print('Image URL: ${food.imageUrl}');
-  //     print('Food ID: ${food.foodId}');
-  //     print('-----------------------');
-  //   }
-  // } else {
-  //   print('No matching food found.');
-  // }
-
-
-
   runApp(const MyApp());
 }
 
