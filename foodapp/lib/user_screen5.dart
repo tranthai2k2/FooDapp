@@ -9,7 +9,6 @@ import 'global/global_data.dart';
 import 'package:foodapp/services/fire_storage_service.dart';
 import 'package:foodapp/services/isar_service.dart';
 import 'models/isar_database/isar_account_entity.dart';
-
 class UserScreen extends StatefulWidget {
   const UserScreen({Key? key}) : super(key: key);
 
@@ -18,6 +17,8 @@ class UserScreen extends StatefulWidget {
 }
 
 class _UserScreenState extends State<UserScreen> {
+  final current = GlobalData.instance.currentUser;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,14 +51,15 @@ class _UserScreenState extends State<UserScreen> {
                     ),
                   ),
                 ),
-                const Positioned(
+                Positioned(
                   left: 108,
                   top: 164,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Erik Walters',
+                        //
+                        " ${current?.firstName ?? ''}",
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 24,
@@ -510,26 +512,7 @@ class _UserScreenState extends State<UserScreen> {
                 (Route<dynamic> route) => false,
           );
       };};
-      //
-      // isarService.deleteAccount(user);
-
-      // if (context.mounted) {
-      //   Navigator.of(context).pushAndRemoveUntil(
-      //     MaterialPageRoute(
-      //       builder: (context) => const ScreenDau(),
-      //     ),
-      //         (Route<dynamic> route) => false,
-      //   );
-      // }
     } else {
-      // if (context.mounted) {
-      //   Navigator.of(context).pushAndRemoveUntil(
-      //     MaterialPageRoute(
-      //       builder: (context) => const ScreenDau(),
-      //     ),
-      //         (Route<dynamic> route) => false,
-      //   );
-      // }
     }
   }
 }

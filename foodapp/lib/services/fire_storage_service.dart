@@ -25,7 +25,7 @@ class FireStorageService {
   // tạo ra favfood với đối tượng gồm cả favfoodid và listfood id
   Future createfavfood(FavFoodEntity favFoodEntity) async {
     try {
-      await _accountCollectionReference.doc(favFoodEntity.favFoodId).set(
+      await _FavFoodCollectionReference.doc(favFoodEntity.favFoodId).set(
         favFoodEntity.toJson(),
       );
     } catch (e) {
@@ -35,6 +35,31 @@ class FireStorageService {
       return e.toString();
     }
   }
+  // tìm id favfood với id của user để ra favfood
+  Future<List<FavFoodEntity>?> searchfavFoodId(String favFoodId) async {
+    try {
+      var foodDocumentSnapshot = await _FavFoodCollectionReference
+          .where('favFoodId', isEqualTo: favFoodId)
+          .get();
+
+      if (foodDocumentSnapshot.docs.isNotEmpty) {
+        // Assuming 'FoodEntity' is a different entity than 'FavFoodEntity'
+        return foodDocumentSnapshot.docs
+            .map(
+              (snapshot) => FavFoodEntity.fromJson(
+            snapshot.data() as Map<String, dynamic>,
+          ),
+        )
+            .toList();
+      }
+      return []; // Return an empty list if no data is found
+    } catch (e) {
+      debugPrint("An error occurred while searching for favorite food");
+      return null; // Return null in case of an error
+    }
+  }
+  // tiến hành tìm theo idfood và iduser sao cho
+
 
 // tạo user
   Future createUser(AccountEntity authenticateInfo) async {
