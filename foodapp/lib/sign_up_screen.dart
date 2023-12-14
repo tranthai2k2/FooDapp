@@ -50,7 +50,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       );
 
       await fireStorageService.createUser(_currentUser);
-
+      await fireStorageService.createfavfood( _currentUserfav);
       GlobalData.instance.currentUser = _currentUser;
 
       Navigator.of(context).pushReplacement(

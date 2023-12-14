@@ -10,6 +10,7 @@ import 'package:foodapp/services/isar_service.dart';
 
 import 'bottom_screen/bottom_bar_screen.dart';
 import 'data_notifier.dart';
+import 'foodlist.dart';
 import 'global/global_data.dart';
 import 'package:provider/provider.dart';
 
@@ -168,6 +169,24 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ],
                 ),
+              ),
+            ),
+            // sang trang listfood
+            // Positioned button
+            Positioned(
+              bottom: 20,
+              right: 20,
+              child: FloatingActionButton(
+                onPressed: () {
+                  // Navigate to ListFoodPage when the button is pressed
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ListFoodPage(),
+                    ),
+                  );
+                },
+                child: Icon(Icons.add),
               ),
             ),
             Positioned(

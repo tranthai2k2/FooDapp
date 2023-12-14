@@ -8,7 +8,7 @@ part 'favfood.g.dart';
 
 class FavFoodEntity {
   final String? favFoodId;
-  final List<int>? listFavFood; // Sửa kiểu dữ liệu ở đây
+  List<int>? listFavFood; // Sửa kiểu dữ liệu ở đây
   FavFoodEntity({
     this.listFavFood,
     this.favFoodId,

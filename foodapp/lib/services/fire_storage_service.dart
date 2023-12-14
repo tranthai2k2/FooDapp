@@ -58,8 +58,26 @@ class FireStorageService {
       return null; // Return null in case of an error
     }
   }
-  // tiến hành tìm theo idfood và iduser sao cho
+// lấy ra listfavfood
+  Future<List<FavFoodEntity>?> getListFavFood() async {
+    try {
+      var favFoodDocumentSnapshot = await _FavFoodCollectionReference.get();
 
+      if (favFoodDocumentSnapshot.docs.isNotEmpty) {
+        return favFoodDocumentSnapshot.docs
+            .map(
+              (snapshot) => FavFoodEntity.fromJson(
+            snapshot.data() as Map<String, dynamic>,
+          ),
+        )
+            .toList();
+      }
+      return []; // Return an empty list if no data is found
+    } catch (e) {
+      debugPrint("Đã xảy ra lỗi không lấy về được danh sách favorite food");
+      return null; // Return null in case of an error
+    }
+  }
 
 // tạo user
   Future createUser(AccountEntity authenticateInfo) async {
@@ -101,6 +119,37 @@ class FireStorageService {
     }
   }
 
+// updatefavfood với favfoodId và foodId
+  Future<void> updateFavFoodList(String favFoodId, int foodId) async {
+    try {
+      // Tìm kiếm favFoodEntity với favFoodId
+      List<FavFoodEntity>? favFoodList = await searchfavFoodId(favFoodId);
+
+      // Nếu tìm thấy favFoodEntity với favFoodId tương ứng
+      if (favFoodList != null && favFoodList.isNotEmpty) {
+        FavFoodEntity favFood = favFoodList[0]; // Giả sử chỉ lấy phần tử đầu tiên
+
+        // Kiểm tra xem foodId đã tồn tại trong favFood.listFavFood chưa
+        if (favFood.listFavFood != null && favFood.listFavFood!.contains(foodId)) {
+          // Nếu foodId đã tồn tại, xóa nó khỏi danh sách listFavFood
+          favFood.listFavFood!.remove(foodId);
+        } else {
+          // Nếu foodId chưa tồn tại, thêm nó vào listFavFood
+          favFood.listFavFood ??= [];
+          favFood.listFavFood!.add(foodId);
+        }
+
+        // Sau khi cập nhật danh sách listFavFood, cập nhật lại vào Firestore
+        await _FavFoodCollectionReference.doc(favFoodId).update(favFood.toJson());
+      } else {
+        // Nếu không tìm thấy favFoodEntity với favFoodId tương ứng, thông báo lỗi hoặc xử lý theo ý bạn
+        debugPrint("Không tìm thấy FavFoodEntity với ID: $favFoodId");
+      }
+    } catch (e) {
+      debugPrint("Đã xảy ra lỗi khi cập nhật danh sách favorite food: $e");
+      // Xử lý lỗi theo ý bạn
+    }
+  }
 
 // lấy dữ liệu từ list account và tạo nó vao trong database
   Future<List<AccountEntity>?> getListAccount() async {
@@ -123,6 +172,26 @@ class FireStorageService {
     }
   }
 
+
+  Future<List<FoodEntity>?> getListFood() async {
+    try {
+      var foodDocumentSnapshot = await _foodCollectionReference.get();
+
+      if (foodDocumentSnapshot.docs.isNotEmpty) {
+        return foodDocumentSnapshot.docs
+            .map(
+              (snapshot) => FoodEntity.fromJson(
+            snapshot.data() as Map<String, dynamic>,
+          ),
+        )
+            .toList();
+      }
+      return []; // Return an empty list if no data is found
+    } catch (e) {
+      debugPrint("Đã xảy ra lỗi không lấy về được danh sách food");
+      return null; // Return null in case of an error
+    }
+  }
   // Tìm kiếm món ăn theo tên
   Future<List<FoodEntity>?> searchFood(String foodName) async {
     try {

@@ -406,12 +406,6 @@ class _UserScreenState extends State<UserScreen> {
                 ElevatedButton(
                   onPressed: () {
                     _checkoutAccountSaved();
-                    // // Xử lý khi nút được nhấn
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //       builder: (context) => const ScreenDau()),
-                    // );
                   },
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
@@ -503,7 +497,7 @@ class _UserScreenState extends State<UserScreen> {
       }
 
 
-      if (accounts.isNotEmpty){
+      if (accounts.isEmpty){
         if (context.mounted) {
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
