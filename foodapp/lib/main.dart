@@ -1,10 +1,12 @@
 // import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:foodapp/screendau.dart';
+import 'package:foodapp/splashscreen.dart';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:foodapp/services/fire_storage_service.dart';
 
 // import 'models/entities/food_entity.dart';
+import 'models/entities/OrderProcessor.dart';
 import 'models/entities/food_entity.dart';
 import 'models/entities/restaurant_entity.dart';
 // class FirebaseService {
@@ -22,6 +24,16 @@ void main() async {
   FireStorageService fireStorageService = FireStorageService();
   // Gọi hàm để in ra tất cả nhà hàng có món ăn có tên là searchFoodName
   // Tạo danh sách nhà hàng
+  final _testorder = OrderProcessorEntity(
+    OrderProcessorEntityid: '123a4',
+    allprice: 12.6,
+    // listOrderProcessor: [
+    //   [2, 1],
+    //   [2, 2]1
+    // ],
+  );
+  var result = await fireStorageService.createOrderProcessor(_testorder);
+
   List<RestaurantEntity> restaurantList = [
     RestaurantEntity(
       restaurantId:1,

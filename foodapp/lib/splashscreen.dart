@@ -17,42 +17,45 @@ class _ScreenDauState extends State<ScreenDau> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Container(
-            height: 380,
+      body: GestureDetector(
+        onTap: () {
+          Future.delayed(const Duration(seconds: 1), () {
+            _checkAccountSaved();
+          });
+        },
+        child: Ink(
+          color: Colors.transparent,
+          child: Container(
             decoration: const BoxDecoration(
-              color: Color(0xFFDB166E),
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(150),
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [Color(0xFFDB166E), Colors.white],
               ),
             ),
-            child: Stack(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Center(
-                  child: Image.asset(
-                    "assets/images/3.png",
-                    fit: BoxFit.cover,
+                Expanded(
+                  child: Center(
+                    child: Image.asset(
+                      "assets/images/3.png",
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Center(
+                    child: Image.asset(
+                      'assets/images/2.png',
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ],
             ),
           ),
-          InkWell(
-            onTap: () {
-              _checkAccountSaved();
-
-            },
-            child: Container(
-              child: Image.asset(
-                'assets/images/2.png',
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

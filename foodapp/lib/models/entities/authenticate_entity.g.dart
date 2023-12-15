@@ -15,6 +15,9 @@ AccountEntity _$AccountEntityFromJson(Map<String, dynamic> json) =>
       uId: json['uId'] as String?,
       passWord: json['passWord'] as String?,
       avatar: json['avatar'] as String?,
+      orderfoodIdlist: (json['orderfoodIdlist'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
       address: json['address'] as String?,
       phoneNumber: json['phoneNumber'] as String?,
     );
@@ -22,6 +25,7 @@ AccountEntity _$AccountEntityFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$AccountEntityToJson(AccountEntity instance) =>
     <String, dynamic>{
       'firstName': instance.firstName,
+      'orderfoodIdlist': instance.orderfoodIdlist,
       'lastName': instance.lastName,
       'uId': instance.uId,
       'phoneNumber': instance.phoneNumber,

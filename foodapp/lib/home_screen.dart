@@ -11,6 +11,7 @@ import 'package:foodapp/services/isar_service.dart';
 import 'bottom_screen/bottom_bar_screen.dart';
 import 'data_notifier.dart';
 import 'foodlist.dart';
+import 'foodlistaddorder.dart';
 import 'global/global_data.dart';
 import 'package:provider/provider.dart';
 
@@ -189,6 +190,24 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Icon(Icons.add),
               ),
             ),
+            Positioned(
+              bottom: 20,
+              right: 120,
+              child: FloatingActionButton(
+                onPressed: () {
+                  // Navigate to AddFoodOrderPage when the button is pressed
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddFoodOrder(),
+                    ),
+                  );
+                },
+                backgroundColor: Colors.pink, // Đặt màu cho nút Floating Action Button
+                child: Icon(Icons.add),
+              ),
+            ),
+
             Positioned(
               left: 26,
               top: 461,

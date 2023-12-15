@@ -7,15 +7,18 @@ part 'OrderProcessor.g.dart';
 )
 
 class OrderProcessorEntity {
-  // final String? OrderProcessor;
-  // id của đơn hàng
+  // id của đơn hàng gợi ý là lấy gias trị của userid nối với toàn giá
   final String? OrderProcessorEntityid;
+  final String? userid;
+  List<int>? listcallFood; // Sửa kiểu dữ liệu ở đây
   // toan gia
   final double? allprice;
 // list của các món ăn và giá giá của chúng đối tượng bên trong sẽ là <id món ăn, int số lượng>
   final List<List<int>>? listOrderProcessor;
   OrderProcessorEntity({
+    this.userid,
     this.listOrderProcessor,
+    this.listcallFood,
     this.allprice,
     this.OrderProcessorEntityid,
   });

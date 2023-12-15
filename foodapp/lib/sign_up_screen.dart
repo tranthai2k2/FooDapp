@@ -8,6 +8,7 @@ import 'package:foodapp/services/fire_storage_service.dart';
 import 'package:foodapp/validator/validations.dart';
 
 import 'bottom_screen/bottom_bar_screen.dart';
+import 'models/entities/OrderProcessor.dart';
 import 'models/entities/authenticate_entity.dart';
 import 'models/entities/favfood.dart';
 
@@ -48,6 +49,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
       final _currentUserfav = FavFoodEntity(
           favFoodId: authResult.user?.uid,
       );
+
+
+
 
       await fireStorageService.createUser(_currentUser);
       await fireStorageService.createfavfood( _currentUserfav);

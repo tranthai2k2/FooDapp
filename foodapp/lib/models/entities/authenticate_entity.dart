@@ -7,6 +7,8 @@ class AccountEntity {
   @JsonKey()
   final String? firstName;
   @JsonKey()
+  final List<String>? orderfoodIdlist;
+  @JsonKey()
   final String? lastName;
   @JsonKey()
   final String? uId;
@@ -30,6 +32,7 @@ class AccountEntity {
     this.uId,
     this.passWord,
     this.avatar,
+    this.orderfoodIdlist,
     this.address,
     this.phoneNumber,
   });

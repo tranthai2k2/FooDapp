@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:foodapp/models/entities/food_entity.dart';
 import 'package:foodapp/models/entities/restaurant_entity.dart';
 
+import '../models/entities/OrderProcessor.dart';
 import '../models/entities/authenticate_entity.dart';
 import '../models/entities/favfood.dart';
 
@@ -16,8 +17,22 @@ class FireStorageService {
 
   final CollectionReference _foodCollectionReference =
       FirebaseFirestore.instance.collection('food');
-  final CollectionReference _OrderProcessorCollectionReference =
+  final CollectionReference _orderProcessorCollectionReference =
   FirebaseFirestore.instance.collection('OrderProcessor');
+  // tạo ra favfood với đối tượng gồm cả favfoodid và listfood id
+  Future createOrderProcessor(OrderProcessorEntity orderProcessorEntity) async {
+    try {
+      await _orderProcessorCollectionReference.doc(orderProcessorEntity.OrderProcessorEntityid).set(
+        orderProcessorEntity.toJson(),
+      );
+    } catch (e) {
+      if (e is PlatformException) {
+        return e.message;
+      }
+      return e.toString();
+    }
+  }
+
   final CollectionReference _FavFoodCollectionReference =
   FirebaseFirestore.instance.collection('FavFood');
 
