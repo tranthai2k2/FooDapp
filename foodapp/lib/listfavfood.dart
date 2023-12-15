@@ -68,7 +68,6 @@ class _ListFoodFavPageState extends State<ListFoodFavPage> {
       );
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,30 +83,28 @@ class _ListFoodFavPageState extends State<ListFoodFavPage> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 10),
-            if (listid != null && listid!.isNotEmpty) // Kiểm tra xem listid có dữ liệu không
-              Expanded(
-                child: ListView.builder(
-                  itemCount: listid!.length,
-                  itemBuilder: (context, index) {
-                    int foodId = listid![index];
-                    return FutureBuilder<ListTile>(
-                      future: getFoodInfo(foodId),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<ListTile> snapshot) {
-                        if (snapshot.hasData) {
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: snapshot.data!,
-                          );
-                        } else if (snapshot.hasError) {
-                          return Text('Error loading food info');
-                        } else {
-                          return CircularProgressIndicator();
-                        }
-                      },
-                    );
-                  },
-                ),
+            if (favFoods.isNotEmpty)
+              Column(
+                children: favFoods
+                    .map((favFoodEntity) => Column(
+                  children: favFoodEntity.listFavFood != null &&
+                      favFoodEntity.listFavFood!.isNotEmpty
+                      ? favFoodEntity.listFavFood!
+                      .map(
+                        (favFood) => Text(
+                      favFood.toString(),
+                      style: TextStyle(fontSize: 56),
+                    ),
+                  )
+                      .toList()
+                      : [
+                    Text(
+                      'No favorite foods found.',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ],
+                ))
+                    .toList(),
               )
             else
               Text(
@@ -115,6 +112,7 @@ class _ListFoodFavPageState extends State<ListFoodFavPage> {
                 style: TextStyle(fontSize: 16),
               ),
           ],
+
         ),
       ),
     );

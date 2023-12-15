@@ -31,6 +31,7 @@ dependencies:
   flutter:
     sdk: flutter
 
+  flutter_launcher_icons: "^0.13.1"
 
   intl: ^0.17.0
 
@@ -75,7 +76,12 @@ dev_dependencies:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
-
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/iconapp.png"
+  min_sdk_android: 21
+  icon_size: 48
 # The following section is specific to Flutter packages.
 flutter:
 
