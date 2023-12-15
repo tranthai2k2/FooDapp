@@ -1,7 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:foodapp/global/global_data.dart';
 import 'package:foodapp/login.dart';
 import 'package:flutter/material.dart';
 import 'package:foodapp/firebase/filebase_service.dart';
+import 'package:foodapp/services/fire_storage_service.dart';
 import 'package:foodapp/validator/validations.dart';
+
+import 'bottom_screen/bottom_bar_screen.dart';
+import 'models/entities/OrderProcessor.dart';
+import 'models/entities/authenticate_entity.dart';
+import 'models/entities/favfood.dart';
+
 // import 'home_screen.dart';
 // import 'bottom_screen/bottom_bar_screen.dart';
 
@@ -18,6 +28,43 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController usernameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+
+  Future<void> _signUpWithEmail() async {
+    try {
+      FireStorageService fireStorageService = FireStorageService();
+      var authResult =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text,
+      );
+
+      final _currentUser = AccountEntity(
+        uId: authResult.user?.uid,
+        email: emailController.text,
+        firstName: usernameController.text,
+        phoneNumber: phoneController.text,
+        passWord: passwordController.text,
+        favFoodId:authResult.user?.uid,
+      );
+      final _currentUserfav = FavFoodEntity(
+          favFoodId: authResult.user?.uid,
+      );
+
+
+
+
+      await fireStorageService.createUser(_currentUser);
+      await fireStorageService.createfavfood( _currentUserfav);
+      GlobalData.instance.currentUser = _currentUser;
+
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => BottomBarScreen()),
+      );
+    } catch (e) {
+      // Xử lý lỗi đăng ký
+      print('Lỗi đăng ký: $e');
+    }
+  }
 
   var userNameErr = "Tên đăng nhập không hợp lệ";
   var passErr = "Mật khẩu phải trên 6 ký tự";
@@ -187,28 +234,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     GestureDetector(
                       onTap: () async {
                         setState(() async {
-                          // Kiểm tra thông tin người dùng
                           _validateInputs();
                           // Nếu thông tin hợp lệ, thực hiện đăng ký và gửi dữ liệu lên Firebase
                           if (!userInvalid &&
                               !passInvalid &&
                               !phoneInvalid &&
                               !emailInvalid) {
-                            AuthService authService = AuthService();
                             try {
-                              await authService.signUpWithEmailAndPassword(
-                                emailController.text,
-                                passwordController.text,
-                                usernameController.text,
-                                phoneController.text,
-                              );
-
-                              Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                    builder: (context) => const LoginScreen()),
-                              );
+                              _signUpWithEmail();
                             } catch (e) {
-                              // Xử lý lỗi nếu đăng ký không thành công
                               print('Lỗi khi đăng ký: $e');
                             }
                           }

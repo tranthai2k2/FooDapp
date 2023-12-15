@@ -1,6 +1,8 @@
 import 'package:foodapp/gird_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+import 'data_notifier.dart'; // Import DataNotifier
 
 class SearchAddressScreen extends StatefulWidget {
   const SearchAddressScreen({Key? key}) : super(key: key);
@@ -12,6 +14,9 @@ class SearchAddressScreen extends StatefulWidget {
 class _SearchAddressScreenState extends State<SearchAddressScreen> {
   @override
   Widget build(BuildContext context) {
+    String searchData =
+        Provider.of<DataNotifier>(context).searchData;
+
     return Scaffold(
       body: Column(children: [
         Container(
@@ -857,3 +862,5 @@ class _SearchAddressScreenState extends State<SearchAddressScreen> {
     );
   }
 }
+
+
