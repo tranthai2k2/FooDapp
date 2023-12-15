@@ -497,7 +497,8 @@ class _UserScreenState extends State<UserScreen> {
       }
 
 
-      if (accounts.isEmpty){
+
+      if (GlobalData.instance.currentUser == null) {
         if (context.mounted) {
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
@@ -505,7 +506,7 @@ class _UserScreenState extends State<UserScreen> {
             ),
                 (Route<dynamic> route) => false,
           );
-      };};
+        };};
     } else {
     }
   }

@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:foodapp/services/fire_storage_service.dart';
 import 'models/entities/authenticate_entity.dart';
@@ -16,33 +15,29 @@ class ListFoodFavPage extends StatefulWidget {
 class _ListFoodFavPageState extends State<ListFoodFavPage> {
   final FireStorageService fireStorageService = FireStorageService();
   List<FavFoodEntity> favFoods = [];
-  late AccountEntity? currentUser; // Đổi từ "late" thành "late final" để tránh gán giá trị null
-  List<int>?  listid; //
+  late final AccountEntity? currentUser;
+  List<int>? listid;
+
   @override
   void initState() {
     super.initState();
     _getCurrentUser();
-    _loadFoodIds();
-// Gọi hàm để lấy giá trị từ currentUser
   }
+
   void _loadFoodIds() {
-    // Gán giá trị cho listid từ favFoods
     listid = favFoods
         .expand((favFoodEntity) => favFoodEntity.listFavFood ?? [])
-        .map<int>((favFood) => favFood.foodId as int) // Chuyển đổi từ dynamic sang int
+        .map<int>((favFood) => favFood.foodId as int)
         .toList();
   }
 
-
-  // Hàm để lấy giá trị từ currentUser
   void _getCurrentUser() {
     currentUser = GlobalData.instance.currentUser;
     if (currentUser != null) {
-      _fetchFavFoods(currentUser?.uId ?? ""); // Nếu currentUser không null, gọi hàm để lấy danh sách món ăn yêu thích
+      _fetchFavFoods(currentUser?.uId ?? "");
     }
   }
 
-  // Hàm để lấy danh sách món ăn yêu thích dựa trên userId
   Future<void> _fetchFavFoods(String userId) async {
     List<FavFoodEntity>? fetchedFavFoods =
     await fireStorageService.searchfavFoodId(userId);
@@ -50,24 +45,24 @@ class _ListFoodFavPageState extends State<ListFoodFavPage> {
       setState(() {
         favFoods = fetchedFavFoods;
       });
+      _loadFoodIds(); // Load food ids after fetching fav foods
     }
   }
-// Hàm để lấy thông tin food từ fireStorageService dựa trên foodid và trả về ListTile chứa thông tin food
-  Future<ListTile> getFoodInfo(int foodid) async {
+
+  Future<Widget> getFoodInfo(int foodid) async {
     FoodEntity? food = await fireStorageService.searchentityFooDid(foodid);
     if (food != null) {
       return ListTile(
         title: Text(food.foodName ?? ''),
         subtitle: Text('Price: \$${food.price?.toStringAsFixed(2) ?? ''}'),
-        // Bạn có thể thêm các thuộc tính khác vào ListTile tùy theo nhu cầu
       );
     } else {
-      // Trường hợp không tìm thấy food, có thể trả về một ListTile thông báo không tìm thấy
       return ListTile(
         title: Text('Food not found'),
       );
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,10 +85,16 @@ class _ListFoodFavPageState extends State<ListFoodFavPage> {
                   children: favFoodEntity.listFavFood != null &&
                       favFoodEntity.listFavFood!.isNotEmpty
                       ? favFoodEntity.listFavFood!
-                      .map(
-                        (favFood) => Text(
-                      favFood.toString(),
-                      style: TextStyle(fontSize: 56),
+                      .map<FutureBuilder<Widget>>(
+                        (favFood) => FutureBuilder<Widget>(
+                      future: getFoodInfo(favFood),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return snapshot.data!;
+                        } else {
+                          return CircularProgressIndicator();
+                        }
+                      },
                     ),
                   )
                       .toList()
@@ -112,10 +113,9 @@ class _ListFoodFavPageState extends State<ListFoodFavPage> {
                 style: TextStyle(fontSize: 16),
               ),
           ],
-
         ),
       ),
+
     );
   }
-
 }

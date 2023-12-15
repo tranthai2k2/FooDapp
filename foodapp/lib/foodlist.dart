@@ -50,6 +50,7 @@ class _ListFoodPageState extends State<ListFoodPage> {
             title: Text(food.foodName ?? ''),
             subtitle:
             Text('Price: \$${food.price?.toStringAsFixed(2) ?? ''}'),
+            //
             onTap: () {
               // Kiểm tra và sử dụng currentUser.uId nếu nó không phải là null
               if (currentUser != null) {
