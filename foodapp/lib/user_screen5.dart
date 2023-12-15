@@ -8,6 +8,7 @@ import 'package:foodapp/personal_information-screen.dart';
 import 'global/global_data.dart';
 import 'package:foodapp/services/fire_storage_service.dart';
 import 'package:foodapp/services/isar_service.dart';
+import 'listfavfood.dart';
 import 'models/isar_database/isar_account_entity.dart';
 class UserScreen extends StatefulWidget {
   const UserScreen({Key? key}) : super(key: key);
@@ -245,7 +246,7 @@ class _UserScreenState extends State<UserScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const FavoriteScreen()),
+                          builder: (context) => const ListFoodFavPage()),
                     );
                   },
                   style: ElevatedButton.styleFrom(

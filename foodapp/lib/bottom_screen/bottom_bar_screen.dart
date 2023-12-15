@@ -9,6 +9,8 @@ import 'package:foodapp/favorites_screen.dart';
 import 'package:foodapp/notification_screen.dart';
 import 'package:foodapp/user_screen5.dart';
 
+import '../listfavfood.dart';
+
 class BottomBarScreen extends StatefulWidget {
   const BottomBarScreen({Key? key}) : super(key: key);
 
@@ -20,7 +22,7 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
   final pages = [
     const HomeScreen(),
     const OrderScreen(),
-    const FavoriteScreen(),
+    const ListFoodFavPage(),
     const NotificationScreen(),
     const UserScreen(),
   ];
