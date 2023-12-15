@@ -11,7 +11,6 @@ import 'package:foodapp/services/isar_service.dart';
 import 'bottom_screen/bottom_bar_screen.dart';
 import 'data_notifier.dart';
 import 'foodlist.dart';
-import 'foodlistaddorder.dart';
 import 'global/global_data.dart';
 import 'package:provider/provider.dart';
 
@@ -101,8 +100,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 onPressed: () {
                   // Provider.of<DataNotifier>(context, listen: false)
                   //     .setSearchData(emailController.text);
-
-
                 },
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
@@ -129,13 +126,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
                     // nhập thông tin để tìm
                     Container(
-                      margin: const EdgeInsets.only(top: 16, left: 8, bottom: 12),
+                      margin:
+                          const EdgeInsets.only(top: 16, left: 8, bottom: 12),
                       width: 200,
                       height: 22,
-
                       child: TextField(
                         controller: emailController,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           hintText: 'Search for address, food...',
                           hintStyle: TextStyle(
                             color: Color(0xFFC4C4C4),
@@ -144,7 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             fontWeight: FontWeight.w400,
                           ),
                         ),
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.black, // Màu chữ khi nhập giá trị
                           fontSize: 16,
                           fontFamily: 'Nunito',
@@ -191,24 +188,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             Positioned(
-              bottom: 20,
-              right: 120,
-              child: FloatingActionButton(
-                onPressed: () {
-                  // Navigate to AddFoodOrderPage when the button is pressed
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => AddFoodOrder(),
-                    ),
-                  );
-                },
-                backgroundColor: Colors.pink, // Đặt màu cho nút Floating Action Button
-                child: Icon(Icons.add),
-              ),
-            ),
-
-            Positioned(
               left: 26,
               top: 461,
               width: 320,
@@ -216,19 +195,20 @@ class _HomeScreenState extends State<HomeScreen> {
               child: ElevatedButton(
                 onPressed: () {
                   // Xử lý khi nút được nhấn
-                  if (emailController!=null) {
+                  if (emailController != null) {
                     print("đã nhập vào gia tri");
                     // FireStorageService.searchFood(emailController.text);
                     // Chuyển đến trang SearchAddressScreen
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const SearchAddressScreen(),
+                        builder: (context) => const SearchScreen(),
                       ),
                     );
                   } else {
                     print("chưa có giá trị được nhập vào");
-                  };
+                  }
+                  ;
 
                   // Navigator.push(
                   //   context,
@@ -259,7 +239,4 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
-
-
 }
