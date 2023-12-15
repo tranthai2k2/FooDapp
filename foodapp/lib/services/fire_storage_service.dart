@@ -6,6 +6,7 @@ import 'package:foodapp/models/entities/restaurant_entity.dart';
 
 import '../models/entities/OrderProcessor.dart';
 import '../models/entities/authenticate_entity.dart';
+import '../models/entities/callfood.dart';
 import '../models/entities/favfood.dart';
 
 class FireStorageService {
@@ -19,7 +20,52 @@ class FireStorageService {
       FirebaseFirestore.instance.collection('food');
   final CollectionReference _orderProcessorCollectionReference =
   FirebaseFirestore.instance.collection('OrderProcessor');
-  // tạo ra favfood với đối tượng gồm cả favfoodid và listfood id
+  final CollectionReference _callFoodReference =
+  FirebaseFirestore.instance.collection('callfood');
+  // tạo callfood
+  Future<String?> createCallFoodEntity(callfoodEntity callFoodEntity) async {
+    try {
+      String callFoodId = callFoodEntity.callfoodid.toString(); // Chuyển đổi int? thành String
+
+      await _callFoodReference.doc(callFoodId).set(
+        callFoodEntity.toJson(),
+      );
+
+      // Trả về null nếu không có lỗi xảy ra
+      return null;
+    } catch (e) {
+      if (e is PlatformException) {
+        return e.message;
+      }
+      return e.toString();
+    }
+  }
+
+
+  // tìm kiếm các order theo userid
+  Future<List<OrderProcessorEntity>?> searchOrderProcessorbyuserid(String userid) async {
+    try {
+      var orderDocumentSnapshot = await _orderProcessorCollectionReference
+          .where('userid', isEqualTo: userid)
+          .get();
+
+      if (orderDocumentSnapshot.docs.isNotEmpty) {
+        return orderDocumentSnapshot.docs
+            .map(
+              (snapshot) => OrderProcessorEntity.fromJson(
+            snapshot.data() as Map<String, dynamic>,
+          ),
+        )
+            .toList();
+      }
+      return null; // Trả về null nếu không tìm thấy dữ liệu
+    } catch (e) {
+      debugPrint("Đã xảy ra lỗi khi tìm kiếm bộ xử lý đơn hàng");
+      return null; // Trả về null trong trường hợp có lỗi
+    }
+  }
+
+  // tạo ra ordefood
   Future createOrderProcessor(OrderProcessorEntity orderProcessorEntity) async {
     try {
       await _orderProcessorCollectionReference.doc(orderProcessorEntity.OrderProcessorEntityid).set(
