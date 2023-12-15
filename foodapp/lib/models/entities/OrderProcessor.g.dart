@@ -9,9 +9,6 @@ part of 'OrderProcessor.dart';
 OrderProcessorEntity _$OrderProcessorEntityFromJson(Map json) =>
     OrderProcessorEntity(
       userid: json['userid'] as String?,
-      listOrderProcessor: (json['listOrderProcessor'] as List<dynamic>?)
-          ?.map((e) => (e as List<dynamic>).map((e) => e as int).toList())
-          .toList(),
       listcallFood: (json['listcallFood'] as List<dynamic>?)
           ?.map((e) => e as int)
           .toList(),
@@ -26,5 +23,4 @@ Map<String, dynamic> _$OrderProcessorEntityToJson(
       'userid': instance.userid,
       'listcallFood': instance.listcallFood,
       'allprice': instance.allprice,
-      'listOrderProcessor': instance.listOrderProcessor,
     };

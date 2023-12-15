@@ -8,13 +8,13 @@ part 'callfood.g.dart';
 class callfoodEntity {
   final int? foodid;
   final int? quantityfood;
-  final String? userid;
+  final String? orderProcessorEntityId;
   final int? callfoodid;
 
   callfoodEntity({
     this.foodid,
     this.quantityfood,
-    this.userid,
+    this.orderProcessorEntityId,
     this.callfoodid,
   });
 

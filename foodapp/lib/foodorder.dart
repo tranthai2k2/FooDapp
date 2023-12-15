@@ -1,4 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:foodapp/services/fire_storage_service.dart';
+
+import 'bottom_screen/bottom_bar_screen.dart';
+import 'global/global_data.dart';
+import 'home_screen.dart';
+import 'models/entities/OrderProcessor.dart';
+import 'models/entities/callfood.dart';
 
 class FoodOrder extends StatefulWidget {
   final int? foodid;
@@ -18,6 +25,7 @@ class FoodOrder extends StatefulWidget {
 
 class _FoodOrderState extends State<FoodOrder> {
   int quantity = 1;
+  final currentUser = GlobalData.instance.currentUser;
 
   void increment() {
     setState(() {
@@ -35,6 +43,30 @@ class _FoodOrderState extends State<FoodOrder> {
 
   double getTotalPrice() {
     return quantity * (widget.foodprice ?? 0);
+  }
+
+  Future<void> createFoodOrder(double totalPrice, String userId, int foodId, int count) async {
+    String orderProcessorEntityId = '$userId$totalPrice';
+    int callFoodId = count + foodId;
+
+    final order = OrderProcessorEntity(
+      userid: userId,
+      allprice: totalPrice,
+      OrderProcessorEntityid: orderProcessorEntityId,
+    );
+
+    final callFood = callfoodEntity(
+      foodid: foodId,
+      quantityfood: count,
+      orderProcessorEntityId: orderProcessorEntityId,
+      callfoodid: callFoodId,
+    );
+
+    FireStorageService fireStorageService = FireStorageService();
+
+    await fireStorageService.createOrderProcessor(order);
+    await fireStorageService.createCallFoodEntity(callFood);
+
   }
 
   @override
@@ -85,11 +117,38 @@ class _FoodOrderState extends State<FoodOrder> {
       bottomNavigationBar: BottomAppBar(
         child: Container(
           height: 50.0,
-          child: Center(
-            child: Text(
-              'Total: ${getTotalPrice()} ',
-              style: TextStyle(fontSize: 20.0),
-            ),
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Total: ${getTotalPrice()} ',
+                style: TextStyle(fontSize: 20.0),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  if (currentUser?.uId != null) {
+                    createFoodOrder(getTotalPrice(), currentUser!.uId!, widget.foodid!, quantity);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => BottomBarScreen(),
+                      ),
+                    );
+                  }
+                },
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.pink),
+                ),
+                child: Text(
+                  'Thanh toán',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16.0,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
